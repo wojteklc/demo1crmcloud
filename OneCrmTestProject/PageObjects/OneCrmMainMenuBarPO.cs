@@ -32,20 +32,22 @@ namespace OneCrmTestProject.PageObjects
         public void VerifyPageIsOpened()
         {
             CommonWaits.WaitForElementToBecomeVisible(_driver, _salesAndMarketingTabLocator);
+            CommonWaits.WaitForElementToBecomeVisible(_driver, _reportsAndSettingsTabLocator);
             CommonAssertions.AssertDisplayed(SalesAndMarketingTab);
+            CommonAssertions.AssertDisplayed(ReportsAndSettingsTab);
         }
 
-        public void MainMenuSelect(MainMenuTabs mainMenuTab, SubmenuOptions? submenuOption = null)
+        public void NavigateTo(MenuPath menuPath)
         {
-            switch (mainMenuTab)
+            switch (menuPath.MainMenuTab)
             {
                 case MainMenuTabs.SalesAndMarketing:
                     CommonWaits.WaitForElementToBecomeClickable(_driver, _salesAndMarketingTabLocator);
                     CommonInteractions.ClickWebElement(SalesAndMarketingTab);
 
-                    if (submenuOption != null)
+                    if (menuPath.SubmenuOption != null)
                     {
-                        switch (submenuOption)
+                        switch (menuPath.SubmenuOption)
                         {
                             case SubmenuOptions.Contacts:
                                 CommonWaits.WaitForElementToBecomeVisible(_driver, _contactsSubMenuElementLocator);
@@ -55,7 +57,7 @@ namespace OneCrmTestProject.PageObjects
                              // Add more cases if needed
 
                             default:
-                                throw new NotImplementedException($"'{submenuOption}' option not supported");
+                                throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
                         }
                     }
                     break;
@@ -64,9 +66,9 @@ namespace OneCrmTestProject.PageObjects
                     CommonWaits.WaitForElementToBecomeClickable(_driver, _reportsAndSettingsTabLocator);
                     CommonInteractions.ClickWebElement(ReportsAndSettingsTab);
 
-                    if (submenuOption != null)
+                    if (menuPath.SubmenuOption != null)
                     {
-                        switch (submenuOption)
+                        switch (menuPath.SubmenuOption)
                         {
                             case SubmenuOptions.Reports:
                                 CommonWaits.WaitForElementToBecomeVisible(_driver, _reportsSubMenuElementLocator);
@@ -82,14 +84,14 @@ namespace OneCrmTestProject.PageObjects
                             // Add more cases if needed
 
                             default:
-                                throw new NotImplementedException($"'{submenuOption}' option not supported");
+                                throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
                         }
                     }
                     break;
                 // Add more cases if needed
 
                 default:
-                    throw new NotImplementedException($"'{submenuOption}' option not supported");
+                    throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
             }
         }
     }

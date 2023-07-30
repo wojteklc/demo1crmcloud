@@ -34,10 +34,13 @@ namespace OneCrmTestProject.PageObjects
 
         public void VerifyPageIsOpened()
         {
-            CommonWaits.WaitForUrlToMatch(_driver, _url);
+            CommonWaits.WaitForUrlToBe(_driver, _url);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _userNameInputLocator);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _passwordInputLocator);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _loginButtonLocator);
+            CommonAssertions.AssertDisplayed(UserNameInput);
+            CommonAssertions.AssertDisplayed(PasswordInput);
+            CommonAssertions.AssertDisplayed(LoginButton);
         }
 
         public OneCrmHomeDashboardViewPO LogIn(string userName, string password)
