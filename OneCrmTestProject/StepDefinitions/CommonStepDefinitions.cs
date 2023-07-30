@@ -9,6 +9,11 @@ namespace OneCrmTestProject.StepDefinitions
         private readonly IWebDriver _driver;
         private ScenarioContext _scenarioContext;
 
+        /// <summary>
+        /// 'driver' and 'scenarioContext' are received thanks to Specflow's build-in Dependency Injection
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="scenarioContext"></param>
         public CommonStepDefinitions(IWebDriver driver, ScenarioContext scenarioContext)
         {
             _driver = driver;

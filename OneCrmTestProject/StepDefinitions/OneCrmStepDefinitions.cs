@@ -21,6 +21,11 @@ namespace OneCrmTestProject.StepDefinitions
         private OneCrmContactFormPO? _oneCrmContactFormPO;
         private OneCrmContactViewPO? _oneCrmContactViewPO;
 
+        /// <summary>
+        /// 'driver' and 'scenarioContext' are received thanks to Specflow's build-in Dependency Injection
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <param name="scenarioContext"></param>
         public OneCrmStepDefinitions(IWebDriver driver, ScenarioContext scenarioContext)
         {
             _driver = driver;
@@ -61,6 +66,15 @@ namespace OneCrmTestProject.StepDefinitions
             _oneCrmContactFormPO.VerifyPageIsOpened();
         }
 
+        /// <summary>
+        /// This method gets 'RandomNumber' from scenarioContext and saves it in private field of this class
+        /// so it can be used by other steps without searching for it in scenarioContext again.
+        /// 
+        /// If 'RandomNumber' does not exist in scenarioContext, then contact name is entered withour 'RandomNumber' suffix
+        /// so this step can be used for non-random contacts creation
+        /// </summary>
+        /// <param name="table"></param>
+        [When(@"User enters new contact's details")]
         [When(@"User enters new contact's details with random number in 'First Name' to avoid contact duplicates")]
         public void WhenUserEntersNewRandomContactDetails(Table table)
         {
@@ -81,6 +95,11 @@ namespace OneCrmTestProject.StepDefinitions
             _oneCrmContactViewPO.VerifyPageIsOpened();
         }
 
+        /// <summary>
+        /// This step can be used for non-random contacts as well
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
         [Then(@"User should see saved '([^']*) ([^']*)' contact")]
         public void ThenUserShouldSeeSavedContact(string firstName, string lastName)
         {
@@ -89,6 +108,11 @@ namespace OneCrmTestProject.StepDefinitions
             _oneCrmContactViewPO.VerifyContactNameExistsInContactFormHeader($"{firstName}{_randomContactNumber} {lastName}");
         }
 
+        /// <summary>
+        /// /// This step can be used for non-random contacts as well
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
         [When(@"User opens '([^']*) ([^']*)' contact")]
         public void WhenUserOpensContact(string firstName, string lastName)
         {
@@ -99,6 +123,10 @@ namespace OneCrmTestProject.StepDefinitions
             _oneCrmContactFormPO.VerifyPageIsOpened();
         }
 
+        /// <summary>
+        /// /// This step can be used for non-random contacts as well
+        /// </summary>
+        /// <param name="table"></param>
         [Then(@"Contact details are correct")]
         public void ThenContactDetailsAreCorrect(Table table)
         {

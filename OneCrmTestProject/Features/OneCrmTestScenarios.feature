@@ -4,6 +4,9 @@ Tests for https://demo.1crmcloud.com/ portal
 
 @UI
 Scenario Outline: Create contact with unique name
+	# This scenario generates random number to use it as part of contact's first name
+	# Without it, when scenario is executed 2 times in a row it fails because given contact has been created already
+	# I'm aware there was nothing about 'random' contact in task description, but test is 100% reliable with it
 	Given Random number between '10000' and '99999' is generated
 	And User logs in using 'admin' user name and 'admin' password
 	When User navigates to 'Sales & Marketing -> Contacts' menu item
@@ -23,18 +26,21 @@ Scenario Outline: Create contact with unique name
 	| FirstName | LastName | BusinessRole | Category1 | Category2 |
 	| John      | Doe      | CEO          | Business  | Customers |
 
-#@UI
-#Scenario: Run report
-#	Given User logs in using 'admin' user name and 'admin' password
-#	When User navigates to 'Reports & Settings' main menu item then selects 'Reports' sub menu item
-#	And User runs 'Project Profitability' report
-#	Then '20' result rows are visible on the page
-#
-#@UI
-#Scenario: Remove evenes from activity log
-#	Given User logs in using 'admin' user name and 'admin' password
-#	When User navigates to 'Reports & Settings' main menu item then selects 'Activity Log' sub menu item
-#	And User selects first 3 rows in the table
-#	And User selects 'Delete' option from 'Actions' dropdown
-#	Then 3 rows have been deleted
-	
+@UI
+Scenario: Run project report
+	Given User logs in using 'admin' user name and 'admin' password
+	When User navigates to 'Reports & Settings -> Reports' menu item
+	Then User should see list of all reports
+	When User opens 'Project Profitability' report
+	And User runs 'Project Profitability' report
+	Then User should see at least '20' result rows
+
+@UI
+Scenario: Remove events from activity log
+	Given User logs in using 'admin' user name and 'admin' password
+	When User navigates to 'Reports & Settings -> Activity Log' menu item
+	Then User should see list of all acivity logs
+	When User selects first '3' rows in the activity table
+	And User remembers data of these '3' rows
+	And User selects 'Delete' option from 'Actions' dropdown
+	Then '3' remembered activity rows have been deleted

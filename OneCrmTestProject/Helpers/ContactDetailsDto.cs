@@ -6,5 +6,6 @@
         public string LastName { get; set; }
         public string BusinessRole { get; set; }
         public string Categories { get; set; }
+        // Add more contact details if needed
     }
 }

@@ -6,6 +6,11 @@ namespace OneCrmTestProject.StepArgumentTransformations
     [Binding]
     public class OneCrmStepArgumentTransformations
     {
+        /// <summary>
+        /// Transformation which allows to convert strings like 'Sales & Marketing -> Contacts' to 'MenuPath' object
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         [StepArgumentTransformation]
         public MenuPath SubMenuPathTransform(string path)
         {

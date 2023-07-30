@@ -4,13 +4,17 @@ using OpenQA.Selenium;
 
 namespace OneCrmTestProject.PageObjects
 {
+    /// <summary>
+    /// This PO is only small part of 'Main menu' module, just to fulfill example scenatios requirements
+    /// </summary>
     public class OneCrmMainMenuBarPO
     {
         private readonly IWebDriver _driver;
 
         // I really liked to use PageFactory, but because it's deprecated below way of initializing page object web elemens seems optimal to me
         // I personally prefer XPaths as they are very flexible (allow to use all unique html attributes and XPath Axes to locate web elements)
-        // Holding locators in below fields allow us to use them in any class method we want and as many times we want. They are easy to maintain also (only one occurrence of locator)
+        // Holding locators in below fields allow us to use them in any class method we want and as many times we want
+        // They are easy to maintain also (only one occurrence of locator)
         private readonly By _salesAndMarketingTabLocator = By.XPath("//a[@title='Sales & Marketing']");
         private readonly By _reportsAndSettingsTabLocator = By.XPath("//a[@title='Reports & Settings']");
         private readonly By _contactsSubMenuElementLocator = By.XPath("//a[@class='menu-tab-sub-list' and text()=' Contacts']");
