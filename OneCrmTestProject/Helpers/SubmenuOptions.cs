@@ -4,7 +4,7 @@
     {
         Contacts,
         Reports,
-        ActivityLogs
+        ActivityLog
         // Add more sub-menu options if needed
     }
 }

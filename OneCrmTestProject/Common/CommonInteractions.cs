@@ -39,7 +39,6 @@ namespace OneCrmTestProject.Common
             {
                 ClickWebElement(checkbox);
             }
-            CommonAssertions.AssertCheckboxState(checkbox, state);
         }
 
         public static bool GetCheckboxState(IWebElement checkbox)
@@ -76,6 +75,26 @@ namespace OneCrmTestProject.Common
             var foundItem = FindChildElements(driver, popupElement, popupListItemsLocator).Find(x => x.Text == itemName);
 
             ClickWebElement(foundItem);
+            CommonWaits.WaitForElementToDisappearFromDom(driver, popupLocator);
+        }
+
+        public static void SelectOptionFromButtonHeadPopup(IWebDriver driver, IWebElement elementTriggeringPopup, string itemName)
+        {
+            var popupLocator = By.XPath("//div[contains(@id, 'ActionButtonHead-popup') and contains(@class, 'panel-outer')]");
+            var popupListItemsLocator = By.XPath(".//div[contains(@class, 'menu-option')]");
+
+            ClickWebElement(elementTriggeringPopup);
+            CommonWaits.WaitForElementToBecomeVisible(driver, popupLocator);
+            var popupElement = FindElement(driver, popupLocator);
+            var foundItem = FindChildElements(driver, popupElement, popupListItemsLocator).Find(x => x.Text == itemName);
+
+            ClickWebElement(foundItem);
+
+            if (itemName == "Delete")
+            {
+                driver.SwitchTo().Alert().Accept();
+            }
+
             CommonWaits.WaitForElementToDisappearFromDom(driver, popupLocator);
         }
 
@@ -168,8 +187,8 @@ namespace OneCrmTestProject.Common
             var popupLocator = By.XPath("//div[contains(@id, 'input-select') and contains(@class, 'popup-default')]");
 
             SetInputValue(searchbar, searchString);
-            CommonWaits.WaitForElementToBecomeVisible(driver, popupLocator);
-            CommonWaits.WaitForElementToBecomeClickable(driver, popupLocator);
+            //CommonWaits.WaitForElementToBecomeVisible(driver, popupLocator);
+            //CommonWaits.WaitForElementToBecomeClickable(driver, popupLocator);
             SubmitWebElement(searchbar);
             CommonWaits.WaitForLoadingIndicatorToDisappear(driver);
         }

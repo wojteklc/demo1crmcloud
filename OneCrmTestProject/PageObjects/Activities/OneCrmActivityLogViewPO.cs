@@ -17,10 +17,12 @@ namespace OneCrmTestProject.PageObjects.Contacts
         // They are easy to maintain also (only one occurrence of locator)
         private readonly By _activityLogTitleLabelLocator = By.XPath("//div[@id='main-title']//span[text()='Activity Log']");
         private readonly By _activityLogListRowLocator = By.XPath("//tr[contains(@class, 'listViewRow')]");
+        private readonly By _activityLogActionsListButtonLocator = By.XPath("//span[text()=' Actions']//ancestor::button[contains(@id, 'ActionButtonHead')]");
 
         // Lazy initialization of properties holding references to web elements using expression-bodied member
         private IWebElement ActivityLogTitleLabel => _driver.FindElement(_activityLogTitleLabelLocator);
         private List<IWebElement> ActivityLogListRows => _driver.FindElements(_activityLogListRowLocator).ToList();
+        private IWebElement ActivityLogActionsListButton => _driver.FindElement(_activityLogActionsListButtonLocator);
 
         public OneCrmActivityLogViewPO(IWebDriver driver)
         {
@@ -31,7 +33,9 @@ namespace OneCrmTestProject.PageObjects.Contacts
         {
             CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _activityLogTitleLabelLocator);
+            CommonWaits.WaitForElementToBecomeVisible(_driver, _activityLogActionsListButtonLocator);
             CommonAssertions.AssertDisplayed(ActivityLogTitleLabel);
+            CommonAssertions.AssertDisplayed(ActivityLogActionsListButton);
         }
 
         public void VerifyActivityRowsAmountGreaterThan(int greateThanAmount)
@@ -49,7 +53,14 @@ namespace OneCrmTestProject.PageObjects.Contacts
 
         public void VerifyActivityLogRowDoesNotExistByActivityDescription(string activityDescription)
         {
+            CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
             Assert.IsNull(GetActivityLogRowByActivityDescription(activityDescription, false));
+        }
+
+        public void SelectOptionFromActionsDropdown(string actionsDropdownOption)
+        {
+            CommonInteractions.SelectOptionFromButtonHeadPopup(_driver, ActivityLogActionsListButton, actionsDropdownOption);
+            CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
         }
 
         public List<string> MarkUnmarkFirstRowsAmount(int rowsAmount, bool markUnmark)
@@ -64,7 +75,7 @@ namespace OneCrmTestProject.PageObjects.Contacts
                 {
                     var activityLogRow = GetActivityLogRowByIndex(i);
                     var activityRowCells = CommonInteractions.GetTableRowCells(_driver, activityLogRow);
-                    var activityRowCheckbox = CommonInteractions.FindChildElement(_driver, activityRowCells[0], By.XPath("//input[@class='checkbox']"));
+                    var activityRowCheckbox = CommonInteractions.FindChildElement(_driver, activityRowCells[0], By.XPath(".//input[@class='checkbox']"));
                     listOfActirityRowsDescriptions.Add(activityRowCells[1].Text.Trim());
 
                     CommonInteractions.SetCheckboxState(activityRowCheckbox, markUnmark);

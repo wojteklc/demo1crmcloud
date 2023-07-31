@@ -43,11 +43,14 @@ namespace OneCrmTestProject.PageObjects.Common
 
         public void NavigateTo(MenuPathDto menuPath)
         {
+            CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
+
             switch (menuPath.MainMenuTab)
             {
                 case MainMenuTabs.SalesAndMarketing:
                     CommonWaits.WaitForElementToBecomeClickable(_driver, _salesAndMarketingTabLocator);
                     CommonInteractions.ClickWebElement(SalesAndMarketingTab);
+                    CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
 
                     if (menuPath.SubmenuOption != null)
                     {
@@ -63,12 +66,15 @@ namespace OneCrmTestProject.PageObjects.Common
                             default:
                                 throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
                         }
+
+                        CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
                     }
                     break;
 
                 case MainMenuTabs.ReportsAndSettings:
                     CommonWaits.WaitForElementToBecomeClickable(_driver, _reportsAndSettingsTabLocator);
                     CommonInteractions.ClickWebElement(ReportsAndSettingsTab);
+                    CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
 
                     if (menuPath.SubmenuOption != null)
                     {
@@ -80,7 +86,7 @@ namespace OneCrmTestProject.PageObjects.Common
                                 CommonInteractions.ClickWebElement(ReportsSubMenuElement);
                                 break;
 
-                            case SubmenuOptions.ActivityLogs:
+                            case SubmenuOptions.ActivityLog:
                                 CommonWaits.WaitForElementToBecomeVisible(_driver, _activityLogsSubMenuElementLocator);
                                 CommonWaits.WaitForElementToBecomeClickable(_driver, _activityLogsSubMenuElementLocator);
                                 CommonInteractions.ClickWebElement(ActivityLogsSubMenuElement);
@@ -90,6 +96,8 @@ namespace OneCrmTestProject.PageObjects.Common
                             default:
                                 throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
                         }
+
+                        CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
                     }
                     break;
                 // Add more cases if needed

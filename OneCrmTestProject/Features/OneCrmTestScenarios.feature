@@ -4,9 +4,9 @@ A few tests for https://demo.1crmcloud.com/ portal
 
 @UI
 Scenario Outline: Create contact with unique name
-	# This scenario generates random number to use it as part of contact's first name
-	# Without it, when scenario is executed 2 times in a row it fails because given contact has been created already
-	# I'm aware there was nothing about 'random' contact in task description, but test is 100% reliable with it
+	# This scenario generates random number to use it as part of contact's first name.
+	# Without it, when scenario is executed 2 times in a row it fails because given contact has been created already.
+	# I'm aware there was nothing about 'random' contact in task description, but test is 100% reliable with it.
 	Given Random number between '10000' and '99999' is generated
 	And User logs in using 'admin' user name and 'admin' password
 	When User navigates to 'Sales & Marketing -> Contacts' menu item
@@ -27,7 +27,7 @@ Scenario Outline: Create contact with unique name
 	| John      | Doe      | CEO          | Business  | Customers |
 
 @UI
-Scenario: Run project report
+Scenario: Run 'Project Profitability' report
 	Given User logs in using 'admin' user name and 'admin' password
 	When User navigates to 'Reports & Settings -> Reports' menu item
 	Then User should see list of all reports
@@ -38,11 +38,12 @@ Scenario: Run project report
 	Then User should see '20' result rows
 
 @UI
-Scenario: Remove events from activity log
+Scenario: Remove multiple events from activity log
+	# This scenario sometimes fails, because there are multiple activity log rows with the same content.
+	# So after activity log rows removal, validation fail because duplicate activity row is visible in the table.
 	Given User logs in using 'admin' user name and 'admin' password
 	When User navigates to 'Reports & Settings -> Activity Log' menu item
 	Then User should see list of all acivity logs
 	When User selects first '3' rows in the activity table
-	And User remembers data of these '3' rows
 	And User selects 'Delete' option from 'Actions' dropdown
-	Then '3' remembered activity rows have been deleted
+	Then Selected activity rows have been deleted

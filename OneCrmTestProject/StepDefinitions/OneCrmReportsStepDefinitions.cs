@@ -1,9 +1,6 @@
-﻿using OneCrmTestProject.Common;
-using OneCrmTestProject.Helpers;
-using OneCrmTestProject.PageObjects.Contacts;
+﻿using OneCrmTestProject.PageObjects.Contacts;
 using OpenQA.Selenium;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace OneCrmTestProject.StepDefinitions
 {
@@ -12,11 +9,7 @@ namespace OneCrmTestProject.StepDefinitions
     {
         private readonly IWebDriver _driver;
         private ScenarioContext _scenarioContext;
-        private object? _randomContactNumber;
 
-        private OneCrmContactsViewPO? _oneCrmContactsViewPO;
-        private OneCrmContactFormPO? _oneCrmContactFormPO;
-        private OneCrmContactViewPO? _oneCrmContactViewPO;
         private OneCrmReportsViewPO? _oneCrmReportsViewPO;
         private OneCrmReportViewPO? _oneCrmReportViewPO;
 
