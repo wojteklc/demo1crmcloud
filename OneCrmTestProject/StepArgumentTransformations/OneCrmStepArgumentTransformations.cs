@@ -12,21 +12,21 @@ namespace OneCrmTestProject.StepArgumentTransformations
         /// <param name="path"></param>
         /// <returns></returns>
         [StepArgumentTransformation]
-        public MenuPath SubMenuPathTransform(string path)
+        public MenuPathDto SubMenuPathTransform(string path)
         {
             var pathSplitted = path.Split("->");
-            var mainMenuItemToSelectAsString = pathSplitted[0].Replace("&", "And").Replace(" ", "").Trim();
+            var mainMenuItemToSelectAsString = pathSplitted[0].Replace("&", "And").Replace(" ", string.Empty).Trim();
             Enum.TryParse(mainMenuItemToSelectAsString, out MainMenuTabs mainMenuItemToSelectAsEnum);
 
             if (pathSplitted.Length > 1)
             {
-                var subMenuItemToSelectAsString = pathSplitted[1].Replace(" ", "").Trim();
+                var subMenuItemToSelectAsString = pathSplitted[1].Replace(" ", string.Empty).Trim();
                 Enum.TryParse(subMenuItemToSelectAsString, out SubmenuOptions subMenuItemToSelectAsEnum);
 
-                return new MenuPath(mainMenuItemToSelectAsEnum, subMenuItemToSelectAsEnum);
+                return new MenuPathDto(mainMenuItemToSelectAsEnum, subMenuItemToSelectAsEnum);
             }
 
-            return new MenuPath(mainMenuItemToSelectAsEnum, null);
+            return new MenuPathDto(mainMenuItemToSelectAsEnum, null);
         }
     }
 }

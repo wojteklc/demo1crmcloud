@@ -1,7 +1,7 @@
 ﻿using OneCrmTestProject.Common;
 using OpenQA.Selenium;
 
-namespace OneCrmTestProject.PageObjects
+namespace OneCrmTestProject.PageObjects.Contacts
 {
     /// <summary>
     /// This PO is only small part of 'Contacts view' page, just to fulfill example scenatios requirements
@@ -38,6 +38,7 @@ namespace OneCrmTestProject.PageObjects
 
         public void VerifyPageIsOpened()
         {
+            CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _contactsTitleLabelLocator);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _contactsSearchbarLocator);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _contactsCreateButtonLocator);

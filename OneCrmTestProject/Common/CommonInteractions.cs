@@ -12,10 +12,39 @@ namespace OneCrmTestProject.Common
             webElement.Click();
         }
 
+        public static void SubmitWebElement(IWebElement webElement)
+        {
+            webElement.Submit();
+        }
+
         public static void SetInputValue(IWebElement inputElement, string value)
         {
             ClearInputValue(inputElement);
             inputElement.SendKeys(value);
+        }
+
+        public static void ClearInputValue(IWebElement inputElement)
+        {
+            inputElement.Clear();
+        }
+
+        public static List<IWebElement> GetTableRowCells(IWebDriver driver, IWebElement tabelRow)
+        {
+            return FindChildElements(driver, tabelRow, By.TagName("td"));
+        }
+
+        public static void SetCheckboxState(IWebElement checkbox, bool state)
+        {
+            if (GetCheckboxState(checkbox) != state)
+            {
+                ClickWebElement(checkbox);
+            }
+            CommonAssertions.AssertCheckboxState(checkbox, state);
+        }
+
+        public static bool GetCheckboxState(IWebElement checkbox)
+        {
+            return checkbox.GetDomProperty("checked") == "true";
         }
 
         public static void SelectItemFromInputSearchPopup(IWebDriver driver, IWebElement elementTriggeringPopup, string itemName)
@@ -110,11 +139,6 @@ namespace OneCrmTestProject.Common
             return elements;
         }
 
-        public static void ClearInputValue(IWebElement inputElement)
-        {
-            inputElement.Clear();
-        }
-
         public static bool GetElementDisplayedStatus(IWebDriver driver, By by)
         {
             var elementToFind = FindElement(driver, by, false);
@@ -137,6 +161,17 @@ namespace OneCrmTestProject.Common
             {
                 return null;
             }
+        }
+
+        public static void PerformSearchOnList(IWebDriver driver, IWebElement searchbar, string searchString)
+        {
+            var popupLocator = By.XPath("//div[contains(@id, 'input-select') and contains(@class, 'popup-default')]");
+
+            SetInputValue(searchbar, searchString);
+            CommonWaits.WaitForElementToBecomeVisible(driver, popupLocator);
+            CommonWaits.WaitForElementToBecomeClickable(driver, popupLocator);
+            SubmitWebElement(searchbar);
+            CommonWaits.WaitForLoadingIndicatorToDisappear(driver);
         }
     }
 }

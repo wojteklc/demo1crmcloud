@@ -7,6 +7,18 @@ namespace OneCrmTestProject.Common
 {
     public static class CommonWaits
     {
+        public static void WaitForLoadingIndicatorToAppear(IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.One));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='statusDiv' and text()='Loading ...']")));
+        }
+
+        public static void WaitForLoadingIndicatorToDisappear(IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.Ten));
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='statusDiv' and text()='Loading ...']")));
+        }
+
         public static void WaitForUrlToBe(IWebDriver driver, string url)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.Five));

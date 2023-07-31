@@ -1,6 +1,6 @@
 ﻿Feature: OneCrmTestScenarios
 
-Tests for https://demo.1crmcloud.com/ portal
+A few tests for https://demo.1crmcloud.com/ portal
 
 @UI
 Scenario Outline: Create contact with unique name
@@ -32,8 +32,10 @@ Scenario: Run project report
 	When User navigates to 'Reports & Settings -> Reports' menu item
 	Then User should see list of all reports
 	When User opens 'Project Profitability' report
-	And User runs 'Project Profitability' report
-	Then User should see at least '20' result rows
+	Then User should see 'Project Profitability' report
+	And User should see '0' result rows
+	When User runs opened report
+	Then User should see '20' result rows
 
 @UI
 Scenario: Remove events from activity log

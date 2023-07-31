@@ -1,7 +1,7 @@
 ﻿using OneCrmTestProject.Common;
 using OpenQA.Selenium;
 
-namespace OneCrmTestProject.PageObjects
+namespace OneCrmTestProject.PageObjects.Dashboard
 {
     /// <summary>
     /// This PO is only small part of 'Dashboard' page, just to fulfill example scenatios requirements
@@ -26,6 +26,7 @@ namespace OneCrmTestProject.PageObjects
 
         public void VerifyPageIsOpened()
         {
+            CommonWaits.WaitForLoadingIndicatorToDisappear(_driver);
             CommonWaits.WaitForElementToBecomeVisible(_driver, _homeDashboardTitleLabelLocator);
             CommonAssertions.AssertDisplayed(HomeDashboardTitleLabel);
         }

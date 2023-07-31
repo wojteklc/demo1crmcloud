@@ -1,7 +1,8 @@
 ﻿using OneCrmTestProject.Common;
+using OneCrmTestProject.PageObjects.Dashboard;
 using OpenQA.Selenium;
 
-namespace OneCrmTestProject.PageObjects
+namespace OneCrmTestProject.PageObjects.Login
 {
     /// <summary>
     /// This PO is only small part of 'Login view' page, just to fulfill example scenatios requirements

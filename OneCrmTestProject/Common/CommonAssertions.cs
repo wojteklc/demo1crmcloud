@@ -24,5 +24,10 @@ namespace OneCrmTestProject.Common
         {
             Assert.AreEqual(expectedMessageContent, webElement.Text);
         }
+
+        public static void AssertCheckboxState(IWebElement checkbox, bool expectedState)
+        {
+            Assert.AreEqual(expectedState, CommonInteractions.GetCheckboxState(checkbox));
+        }
     }
 }

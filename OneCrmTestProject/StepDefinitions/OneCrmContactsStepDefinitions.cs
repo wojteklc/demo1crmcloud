@@ -1,6 +1,6 @@
 ﻿using OneCrmTestProject.Common;
 using OneCrmTestProject.Helpers;
-using OneCrmTestProject.PageObjects;
+using OneCrmTestProject.PageObjects.Contacts;
 using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -8,15 +8,12 @@ using TechTalk.SpecFlow.Assist;
 namespace OneCrmTestProject.StepDefinitions
 {
     [Binding]
-    public class OneCrmStepDefinitions
+    public class OneCrmContactsStepDefinitions
     {
         private readonly IWebDriver _driver;
         private ScenarioContext _scenarioContext;
         private object? _randomContactNumber;
 
-        private OneCrmLoginViewPO? _oneCrmLoginViewPO;
-        private OneCrmHomeDashboardViewPO? _oneCrmHomeDashboardViewPO;
-        private OneCrmMainMenuBarPO? _oneCrmMainMenuBarPO;
         private OneCrmContactsViewPO? _oneCrmContactsViewPO;
         private OneCrmContactFormPO? _oneCrmContactFormPO;
         private OneCrmContactViewPO? _oneCrmContactViewPO;
@@ -26,29 +23,10 @@ namespace OneCrmTestProject.StepDefinitions
         /// </summary>
         /// <param name="driver"></param>
         /// <param name="scenarioContext"></param>
-        public OneCrmStepDefinitions(IWebDriver driver, ScenarioContext scenarioContext)
+        public OneCrmContactsStepDefinitions(IWebDriver driver, ScenarioContext scenarioContext)
         {
             _driver = driver;
             _scenarioContext = scenarioContext;
-        }
-
-        [Given(@"User logs in using '([^']*)' user name and '([^']*)' password")]
-        public void GivenUserLogsInUsingUserNameAndPassword(string userName, string password)
-        {
-            _oneCrmLoginViewPO = new OneCrmLoginViewPO(_driver);
-            _oneCrmLoginViewPO.GoTo();
-            _oneCrmLoginViewPO.VerifyPageIsOpened();
-            _oneCrmHomeDashboardViewPO = _oneCrmLoginViewPO.LogIn(userName, password);
-            _oneCrmHomeDashboardViewPO.VerifyPageIsOpened();
-            _oneCrmMainMenuBarPO = new OneCrmMainMenuBarPO(_driver);
-            _oneCrmMainMenuBarPO.VerifyPageIsOpened();
-        }
-
-        [When(@"User navigates to '(.*)' menu item")]
-        public void WhenUserNavigatesToMenuItem(MenuPath path)
-        {
-            _oneCrmMainMenuBarPO = new OneCrmMainMenuBarPO(_driver);
-            _oneCrmMainMenuBarPO.NavigateTo(path);
         }
 
         [Then(@"User should see list of all contacts")]

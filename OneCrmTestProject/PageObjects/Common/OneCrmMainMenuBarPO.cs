@@ -2,7 +2,7 @@
 using OneCrmTestProject.Helpers;
 using OpenQA.Selenium;
 
-namespace OneCrmTestProject.PageObjects
+namespace OneCrmTestProject.PageObjects.Common
 {
     /// <summary>
     /// This PO is only small part of 'Main menu' module, just to fulfill example scenatios requirements
@@ -41,7 +41,7 @@ namespace OneCrmTestProject.PageObjects
             CommonAssertions.AssertDisplayed(ReportsAndSettingsTab);
         }
 
-        public void NavigateTo(MenuPath menuPath)
+        public void NavigateTo(MenuPathDto menuPath)
         {
             switch (menuPath.MainMenuTab)
             {
@@ -58,7 +58,7 @@ namespace OneCrmTestProject.PageObjects
                                 CommonWaits.WaitForElementToBecomeClickable(_driver, _contactsSubMenuElementLocator);
                                 CommonInteractions.ClickWebElement(ContactsSubMenuElement);
                                 break;
-                             // Add more cases if needed
+                            // Add more cases if needed
 
                             default:
                                 throw new NotImplementedException($"'{menuPath.SubmenuOption}' option not supported");
