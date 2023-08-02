@@ -5,6 +5,11 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneCrmTestProject", "OneCrmTestProject\OneCrmTestProject.csproj", "{015C14A9-D381-49FF-9D68-8B9A434B6664}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{68A2758A-0371-4999-B638-24B90180E87D}"
+	ProjectSection(SolutionItems) = preProject
+		config.runsettings = config.runsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

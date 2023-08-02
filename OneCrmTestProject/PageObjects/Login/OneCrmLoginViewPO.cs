@@ -1,4 +1,5 @@
-﻿using OneCrmTestProject.Common;
+﻿using NUnit.Framework;
+using OneCrmTestProject.Common;
 using OneCrmTestProject.PageObjects.Dashboard;
 using OpenQA.Selenium;
 
@@ -9,7 +10,7 @@ namespace OneCrmTestProject.PageObjects.Login
     /// </summary>
     public class OneCrmLoginViewPO
     {
-        private readonly string _url = "https://demo.1crmcloud.com/login.php?login_module=Home&login_action=index";
+        private readonly string? _url = $"{TestContext.Parameters["oneCrmBaseUrl"]}/login.php?login_module=Home&login_action=index";
         private readonly IWebDriver _driver;
 
         // I really liked to use PageFactory, but because it's deprecated below way of initializing page object web elemens seems optimal to me

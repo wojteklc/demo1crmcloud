@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 using BoDi;
+using NUnit.Framework;
 
 namespace OneCrmTestProject.Hooks
 {
@@ -20,8 +21,35 @@ namespace OneCrmTestProject.Hooks
         public void CreateWebDriver()
         {
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--start-maximized");
-            //--disable-notifications
+
+            if (TestContext.Parameters.Exists("disableNotifications"))
+            {
+                if (bool.Parse(TestContext.Parameters["disableNotifications"].ToLower()))
+                {
+                    chromeOptions.AddArgument("--disable-notifications");
+                }
+            }
+
+            if (TestContext.Parameters.Exists("headlessMode"))
+            {
+                if (bool.Parse(TestContext.Parameters["headlessMode"].ToLower()))
+                {
+                    chromeOptions.AddArgument("--headless");
+                }
+            }
+
+            if (TestContext.Parameters.Exists("maximizeBrowser"))
+            {
+                if (bool.Parse(TestContext.Parameters["maximizeBrowser"].ToLower()))
+                {
+                    chromeOptions.AddArgument("--start-maximized");
+                }
+            }
+
+            if (TestContext.Parameters.Exists("browserResolution"))
+            {
+                chromeOptions.AddArgument($"--window-size={TestContext.Parameters["browserResolution"]}");
+            }
 
             var driver = new ChromeDriver(chromeOptions);
 

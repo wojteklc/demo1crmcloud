@@ -8,7 +8,8 @@ Scenario Outline: Create contact with unique name
 	# Without it, when scenario is executed 2 times in a row it fails because given contact has been created already.
 	# I'm aware there was nothing about 'random' contact in task description, but test is 100% reliable with it.
 	Given Random number between '10000' and '99999' is generated
-	And User logs in using 'admin' user name and 'admin' password
+	And User navigates to OneCrm web app login page
+	And User logs into OneCrm web app
 	When User navigates to 'Sales & Marketing -> Contacts' menu item
 	Then User should see list of all contacts
 	When User opens 'New contact' form using 'Create' button 
@@ -28,7 +29,8 @@ Scenario Outline: Create contact with unique name
 
 @UI
 Scenario: Run 'Project Profitability' report
-	Given User logs in using 'admin' user name and 'admin' password
+	Given User navigates to OneCrm web app login page
+	And User logs into OneCrm web app
 	When User navigates to 'Reports & Settings -> Reports' menu item
 	Then User should see list of all reports
 	When User opens 'Project Profitability' report
@@ -40,8 +42,9 @@ Scenario: Run 'Project Profitability' report
 @UI
 Scenario: Remove multiple events from activity log
 	# This scenario sometimes fails, because there are multiple activity log rows with the same content.
-	# So after activity log rows removal, validation fail because duplicate activity row is visible in the table.
-	Given User logs in using 'admin' user name and 'admin' password
+	# So after activity log rows removal, validation fail because duplicated activity row may be visible in the table.
+	Given User navigates to OneCrm web app login page
+	And User logs into OneCrm web app
 	When User navigates to 'Reports & Settings -> Activity Log' menu item
 	Then User should see list of all acivity logs
 	When User selects first '3' rows in the activity table

@@ -1,4 +1,5 @@
-﻿using OneCrmTestProject.Helpers;
+﻿using NUnit.Framework;
+using OneCrmTestProject.Helpers;
 using OneCrmTestProject.PageObjects.Common;
 using OneCrmTestProject.PageObjects.Dashboard;
 using OneCrmTestProject.PageObjects.Login;
@@ -34,12 +35,38 @@ namespace OneCrmTestProject.StepDefinitions
             _scenarioContext["RandomNumber"] = new Random().Next(min, max);
         }
 
-        [Given(@"User logs in using '([^']*)' user name and '([^']*)' password")]
-        public void GivenUserLogsInUsingUserNameAndPassword(string userName, string password)
+        [Given(@"User navigates to OneCrm web app login page")]
+        public void GivenUserNavigatesToOneCrmWebAppLoginPage()
         {
             _oneCrmLoginViewPO = new OneCrmLoginViewPO(_driver);
             _oneCrmLoginViewPO.GoTo();
             _oneCrmLoginViewPO.VerifyPageIsOpened();
+        }
+
+        [Given(@"User logs into OneCrm web app")]
+        public void GivenUserLogsIntoOneCrmWebApp()
+        {
+            _oneCrmLoginViewPO = new OneCrmLoginViewPO(_driver);
+
+            string oneCrmUserName = string.Empty;
+            string oneCrmPassword = string.Empty;
+
+            if (TestContext.Parameters.Exists("oneCrmUserName") && TestContext.Parameters.Exists("oneCrmPassword"))
+            {
+                oneCrmUserName = TestContext.Parameters["oneCrmUserName"];
+                oneCrmPassword = TestContext.Parameters["oneCrmPassword"];
+            }
+
+            _oneCrmHomeDashboardViewPO = _oneCrmLoginViewPO.LogIn(oneCrmUserName, oneCrmPassword);
+            _oneCrmHomeDashboardViewPO.VerifyPageIsOpened();
+            _oneCrmMainMenuBarPO = new OneCrmMainMenuBarPO(_driver);
+            _oneCrmMainMenuBarPO.VerifyPageIsOpened();
+        }
+
+        [Given(@"User logs in using '([^']*)' user name and '([^']*)' password")]
+        public void GivenUserLogsInUsingUserNameAndPassword(string userName, string password)
+        {
+            _oneCrmLoginViewPO = new OneCrmLoginViewPO(_driver);
             _oneCrmHomeDashboardViewPO = _oneCrmLoginViewPO.LogIn(userName, password);
             _oneCrmHomeDashboardViewPO.VerifyPageIsOpened();
             _oneCrmMainMenuBarPO = new OneCrmMainMenuBarPO(_driver);

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- configuration elements -->
+  <TestRunParameters>
+    <Parameter name="oneCrmBaseUrl" value="https://demo.1crmcloud.com" />
+    <Parameter name="oneCrmUserName" value="admin" />
+    <Parameter name="oneCrmPassword" value="admin" />
+    <Parameter name="headlessMode" value="false" />
+    <Parameter name="maximizeBrowser" value="true" />
+    <Parameter name="disableNotifications" value="true" />
+    <Parameter name="browserResolution" value="1920,1080" />
+  </TestRunParameters>
+</RunSettings>

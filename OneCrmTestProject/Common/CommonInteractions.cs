@@ -170,6 +170,13 @@ namespace OneCrmTestProject.Common
             return elementToFind.Displayed;
         }
 
+        public static void PerformSearchOnList(IWebDriver driver, IWebElement searchbar, string searchString)
+        {
+            SetInputValue(searchbar, searchString);
+            SubmitWebElement(searchbar);
+            CommonWaits.WaitForLoadingIndicatorToDisappear(driver);
+        }
+
         public static object? TryGetValueFromScenarioContext(ScenarioContext scenarioContext, string key)
         {
             try
@@ -180,17 +187,6 @@ namespace OneCrmTestProject.Common
             {
                 return null;
             }
-        }
-
-        public static void PerformSearchOnList(IWebDriver driver, IWebElement searchbar, string searchString)
-        {
-            var popupLocator = By.XPath("//div[contains(@id, 'input-select') and contains(@class, 'popup-default')]");
-
-            SetInputValue(searchbar, searchString);
-            //CommonWaits.WaitForElementToBecomeVisible(driver, popupLocator);
-            //CommonWaits.WaitForElementToBecomeClickable(driver, popupLocator);
-            SubmitWebElement(searchbar);
-            CommonWaits.WaitForLoadingIndicatorToDisappear(driver);
         }
     }
 }
