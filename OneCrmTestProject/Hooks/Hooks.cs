@@ -7,15 +7,25 @@ using RestSharp;
 using OneCrmTestProject.Helpers;
 using System.Text.Json;
 using System.Net;
+using AventStack.ExtentReports;
+using System.Reflection;
+using AventStack.ExtentReports.Reporter;
 
 namespace OneCrmTestProject.Hooks
 {
     /// <summary>
     /// Driver is handled using the Specflow's build-in Dependency Injection
+    /// Connected 'ExtentReports' HTML reporter
+    ///
+    /// [BeforeTestRun] - for 'ExtentReports' purpose
+    /// [BeforeFeature] - for 'ExtentReports' purpose
+    /// [BeforeStep] - for 'ExtentReports' purpose
+    /// [AfterStep] - for 'ExtentReports' purpose
+    /// [AfterFeature] - for 'ExtentReports' purpose
     ///
     /// [BeforeScenario("UI")]
     /// [BeforeScenario("API")]
-    /// [AfterScenario("UI")]
+    /// [AfterScenario("UI", "API")]
     /// </summary>
     [Binding]
     public class Hooks
@@ -24,15 +34,82 @@ namespace OneCrmTestProject.Hooks
         private readonly IObjectContainer _container;
         private ScenarioContext _scenarioContext;
 
+        private static string? _extentReportFolderPath;
+        private static ExtentReports? _extentReports;
+        private static ExtentTest? _feature;
+        private ExtentTest? _scenario;
+        private ExtentTest? _step;
+
         public Hooks(IObjectContainer container, ScenarioContext scenarioContext)
         {
             _container = container;
             _scenarioContext = scenarioContext;
         }
 
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            var path = Assembly.GetCallingAssembly().Location;
+            var actualPath = path.Substring(0, path.LastIndexOf("bin"));
+            var projectPath = new Uri(actualPath).LocalPath;
+            var timestamp = DateTime.Now.ToString("dd-MM-yyyy_HH;mm;ss");
+            var reportFolderPath = projectPath + $"ExtentTestReports\\TestReport_{timestamp}\\";
+
+            if (!Directory.Exists(reportFolderPath))
+            {
+                Directory.CreateDirectory(reportFolderPath);
+            }
+
+            _extentReports = new ExtentReports();
+            _extentReports.AttachReporter(new ExtentHtmlReporter(reportFolderPath));
+            _extentReportFolderPath = reportFolderPath;
+        }
+
+        [BeforeFeature]
+        public static void BeforeFeature(FeatureContext featureContext)
+        {
+            _feature = _extentReports.CreateTest(featureContext.FeatureInfo.Title);
+        }
+
+        [BeforeStep]
+        public void BeforeStep()
+        {
+            _step = _scenario;
+        }
+
+        [AfterStep]
+        public void AfterStep()
+        {
+            if (_scenarioContext.TestError == null)
+            {
+                _step.Log(Status.Pass, _scenarioContext.StepContext.StepInfo.Text);
+            }
+            else if (_scenarioContext.TestError != null)
+            {
+                // Taking screenshot on test failure, saving it and adding to test report
+                var driver = _container.Resolve<IWebDriver>();
+                var screenshotPath = $"{_extentReportFolderPath}{_scenarioContext.ScenarioInfo.Title}.png";
+                var stackTrace = $"{_scenarioContext.StepContext.StepInfo.Text}<br><br>{_scenarioContext.TestError.StackTrace.Replace(Environment.NewLine, "<br>")}<br>";
+
+                Screenshot file = ((ITakesScreenshot)driver).GetScreenshot();
+                file.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
+
+                // Step failure report will consist of stack trace and screenshot
+                _step.Log(Status.Fail, stackTrace, MediaEntityBuilder.CreateScreenCaptureFromPath(screenshotPath).Build());
+            }
+        }
+
+        [AfterFeature]
+        public static void AfterFeature()
+        {
+            _extentReports?.Flush();
+        }
+
         [BeforeScenario("UI")]
         public void CreateWebDriver()
         {
+            _scenario = _feature.CreateNode(_scenarioContext.ScenarioInfo.Title);
+
             var chromeOptions = new ChromeOptions();
 
             if (TestContext.Parameters.Exists("disableNotifications"))
@@ -68,6 +145,8 @@ namespace OneCrmTestProject.Hooks
         [BeforeScenario("API")]
         public void LogInUsingApi()
         {
+            _scenario = _feature.CreateNode(_scenarioContext.ScenarioInfo.Title);
+
             var client = new RestClient(TestContext.Parameters["oneCrmBaseUrl"]);
             var request = new RestRequest(TestContext.Parameters["loginApiEndpoint"], Method.Post);
 
@@ -91,7 +170,7 @@ namespace OneCrmTestProject.Hooks
             _scenarioContext["ApiSessionIdCookie"] = response.Cookies["PHPSESSID"];
         }
 
-        [AfterScenario("UI")]
+        [AfterScenario("UI", "API")]
         public void DisposeWebDriver()
         {
             var driver = _container.Resolve<IWebDriver>();
