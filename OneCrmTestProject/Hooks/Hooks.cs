@@ -66,10 +66,19 @@ namespace OneCrmTestProject.Hooks
 
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Content-type", "application/json");
-            request.AddBody(JsonSerializer.Serialize(new ApiLoginRequestDto(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true }));
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            request.AddBody(JsonSerializer.Serialize(new ApiLoginRequestDto(), jsonSerializerOptions));
 
             var response = client.Execute(request);
+            var responseDeserialized = JsonSerializer.Deserialize<ApiLoginResponseDto>(response.Content, jsonSerializerOptions);
+
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK.ToString().ToLower(), responseDeserialized.Result);
 
             // Adding session cookie to ScenarioContext to be reused in tests
             _scenarioContext["ApiSessionIdCookie"] = response.Cookies["PHPSESSID"];
