@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 namespace OneCrmTestProject.PageObjects.Contacts
 {
     /// <summary>
-    /// This PO is only small part of 'Contacts view' page, just to fulfill example scenatios requirements
+    /// This PO is only small part of 'Contacts list' page, just to fulfill example scenatios requirements
     /// </summary>
     public class OneCrmContactsViewPO
     {

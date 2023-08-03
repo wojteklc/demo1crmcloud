@@ -5,6 +5,9 @@ using TechTalk.SpecFlow;
 
 namespace OneCrmTestProject.Common
 {
+    /// <summary>
+    /// It's good to have built-in methods wrapped in custom methods in case we want to modify behaviour of any of these globally
+    /// </summary>
     public static class CommonInteractions
     {
         public static void ClickWebElement(IWebElement webElement)

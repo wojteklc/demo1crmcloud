@@ -1,5 +1,8 @@
 ﻿namespace OneCrmTestProject.Helpers
 {
+    /// <summary>
+    /// Class used to transfer partial contact details
+    /// </summary>
     public class ContactDetailsDto
     {
         public string FirstName { get; set; }

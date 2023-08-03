@@ -1,5 +1,8 @@
 ﻿namespace OneCrmTestProject.Helpers
 {
+    /// <summary>
+    /// Class used to specify to which menu items user would like to navigate
+    /// </summary>
     public class MenuPathDto
     {
         public MainMenuTabs MainMenuTab { get; set; }

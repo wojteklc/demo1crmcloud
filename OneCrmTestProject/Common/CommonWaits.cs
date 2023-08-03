@@ -5,14 +5,11 @@ using OpenQA.Selenium.Support.UI;
 
 namespace OneCrmTestProject.Common
 {
+    /// <summary>
+    /// It's good to have built-in methods wrapped in custom methods in case we want to modify behaviour of any of these globally
+    /// </summary>
     public static class CommonWaits
     {
-        public static void WaitForLoadingIndicatorToAppear(IWebDriver driver)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.One));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='statusDiv' and text()='Loading ...']")));
-        }
-
         public static void WaitForLoadingIndicatorToDisappear(IWebDriver driver)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.Ten));
@@ -23,12 +20,6 @@ namespace OneCrmTestProject.Common
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.Five));
             wait.Until(ExpectedConditions.UrlToBe(url));
-        }
-
-        public static void WaitForUrlToContain(IWebDriver driver, string url)
-        {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Timeouts.Five));
-            wait.Until(ExpectedConditions.UrlContains(url));
         }
 
         public static void WaitForElementToBecomeVisible(IWebDriver driver, By by)

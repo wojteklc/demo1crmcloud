@@ -1,5 +1,8 @@
 ﻿namespace OneCrmTestProject.Helpers
 {
+    /// <summary>
+    /// Just default timeouts as const
+    /// </summary>
     public class Timeouts
     {
         public const int One = 1;

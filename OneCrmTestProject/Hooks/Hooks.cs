@@ -10,6 +10,13 @@ using System.Net;
 
 namespace OneCrmTestProject.Hooks
 {
+    /// <summary>
+    /// Driver is handled using the Specflow's build-in Dependency Injection
+    ///
+    /// [BeforeScenario("UI")]
+    /// [BeforeScenario("API")]
+    /// [AfterScenario("UI")]
+    /// </summary>
     [Binding]
     public class Hooks
     {
